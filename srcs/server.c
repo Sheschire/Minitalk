@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 13:52:18 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/07/28 17:51:13 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/07/28 17:54:35 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ char	*byte_to_char(char *byte)
 	return (ascii_value);
 }
 
-void	rewrite_byte(int sigtype)
+void	rewrite_byte(int signum)
 {
 	static char	byte[9];
-	static int	i = 0;
+	int	i = 0;
 
-
+	
 	if (sigtype == SIGUSR1)
 		write(1, "1", 1);
 	if (sigtype == SIGUSR2)
@@ -38,7 +38,7 @@ void	rewrite_byte(int sigtype)
 
 void    init_sigaction(struct sigaction *sa)
 {
-	sa->sa_handler = handler;
+	sa->sa_handler = rewrite_byte;
 	sigemptyset(&sa->sa_mask);
 	sa->sa_flags = 0;
 }
