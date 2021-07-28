@@ -6,13 +6,13 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 13:52:18 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/07/28 17:54:35 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/07/28 18:01:32 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-char	*byte_to_char(char *byte)
+void	byte_to_char(char *byte)
 {
 	int binary_table[8] = {128, 64, 32, 16, 8, 4, 2, 1};
     int i = -1;
@@ -21,19 +21,24 @@ char	*byte_to_char(char *byte)
     while (i++ <= 8)
         if (byte[i] == '1')
             ascii_value = ascii_value + binary_table[i];
-	return (ascii_value);
+	printf("Client sent this message :\n%s\n", byte);
 }
 
 void	rewrite_byte(int signum)
 {
 	static char	byte[9];
-	int	i = 0;
+	static int	i = 0;
 
-	
-	if (sigtype == SIGUSR1)
-		write(1, "1", 1);
-	if (sigtype == SIGUSR2)
-		write(1, "0", 2);
+	if (signum == SIGUSR1)
+		byte[i] = '1';
+	if (signum == SIGUSR2)
+		byte[i] = '0';
+	i++;
+	if (i == 7)
+	{
+		byte[8] = '\0';
+		byte_to_char(byte);
+	}
 }
 
 void    init_sigaction(struct sigaction *sa)
