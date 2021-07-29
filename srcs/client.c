@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 15:12:01 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/07/28 16:53:15 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/07/29 18:35:18 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,33 +48,66 @@ void	signal_to_server(int pid, char bit)
 	if (bit == '1')
 		kill(pid, SIGUSR1);
 	else
+	{
+		printf("sending signal USR2\n");
 		kill(pid, SIGUSR2);
+	}
 }
 
+void	send_bit(int signum)
+{
+	static int i = 0;
+	static int j = 0;
+	char *byte;
+
+	printf("BIEN RECU\n");
+	printf("av2 = %s\n", g_data->av2);
+	printf("signum = %d\n", signum);
+	if (signum == SIGUSR1)
+	{
+		byte = char_to_byte(g_data->av2[i]);
+		//printf("byte : %s\nbyte[j] : %c\n", byte, byte[j]);
+		signal_to_server(g_data->av1, byte[j]);
+		j++;
+		if (j == 8)
+		{
+			if (g_data->av2[i] == '\0')
+			{
+				free(byte);
+				exit(0);
+			}
+			i++;
+			j = 0;
+		}
+		free(byte);
+	}
+}
+
+void	exit_client(int signum)
+{
+	if (signum == SIGUSR2)
+	{
+		printf("END OF TRANSMISSION\n");
+		exit(0);
+	}
+}
 int 	main(int ac, char **av)
 {
-	int		i;
-	int		j;
-	char	*byte;
-	
-	i = 0;
-	byte = 0;
+	t_data	data;
+
 	if (check_argv(ac, av) == 0)
 	{
 		printf("Error detected in program arguments !\n");
 		exit(0);
 	}
-	while (av[2][i])
-	{
-		byte = char_to_byte(av[2][i]);
-		j = 0;
-		while (byte[j])
-		{
-			signal_to_server(ft_atoi(av[1]), byte[j]);
-			j++;
-			usleep(100);
-		}
-		free(byte);
-		i++;
-	}
+	data.av1 = ft_atoi(av[1]);
+	data.av2 = av[2];
+	data.i = 0;
+	data.j = 0;
+	g_data = &data;
+	kill(data.av1, SIGUSR1);
+	signal(SIGUSR1, send_bit);
+	//signal(SIGUSR2, exit_client);
+	while (1)
+		pause();
 }
