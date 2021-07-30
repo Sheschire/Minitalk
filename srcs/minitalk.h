@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 13:53:52 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/07/29 17:45:11 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/07/30 13:09:48 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct  s_data{
 
 t_data *g_data;
 
-void    init_sigaction(struct sigaction *sa);
 int	    ft_atoi(const char *str);
 size_t	ft_strlen(const char *str);
-void    handler(int sigtype);
+void	init_g_data(t_data *data);

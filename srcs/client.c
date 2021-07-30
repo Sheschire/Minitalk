@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 15:12:01 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/07/29 18:35:18 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/07/30 13:12:06 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ void	signal_to_server(int pid, char bit)
 	if (bit == '1')
 		kill(pid, SIGUSR1);
 	else
-	{
-		printf("sending signal USR2\n");
 		kill(pid, SIGUSR2);
-	}
 }
 
 void	send_bit(int signum)
@@ -60,13 +57,9 @@ void	send_bit(int signum)
 	static int j = 0;
 	char *byte;
 
-	printf("BIEN RECU\n");
-	printf("av2 = %s\n", g_data->av2);
-	printf("signum = %d\n", signum);
 	if (signum == SIGUSR1)
 	{
 		byte = char_to_byte(g_data->av2[i]);
-		//printf("byte : %s\nbyte[j] : %c\n", byte, byte[j]);
 		signal_to_server(g_data->av1, byte[j]);
 		j++;
 		if (j == 8)
@@ -83,14 +76,7 @@ void	send_bit(int signum)
 	}
 }
 
-void	exit_client(int signum)
-{
-	if (signum == SIGUSR2)
-	{
-		printf("END OF TRANSMISSION\n");
-		exit(0);
-	}
-}
+
 int 	main(int ac, char **av)
 {
 	t_data	data;
@@ -107,7 +93,9 @@ int 	main(int ac, char **av)
 	g_data = &data;
 	kill(data.av1, SIGUSR1);
 	signal(SIGUSR1, send_bit);
-	//signal(SIGUSR2, exit_client);
 	while (1)
+	{
+		printf("test");
 		pause();
+	}
 }
