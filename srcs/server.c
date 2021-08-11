@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 13:52:18 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/08/11 15:59:20 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/08/11 16:28:39 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,28 @@ void	init_g_data(t_data *data)
 	data->i = 0;
 	g_data = data;
 	memset(g_data->byte, 0, 8);
+	g_data->binary_table[0] = 128;
+	g_data->binary_table[1] = 64;
+	g_data->binary_table[2] = 32;
+	g_data->binary_table[3] = 16;
+	g_data->binary_table[4] = 8;
+	g_data->binary_table[5] = 4;
+	g_data->binary_table[6] = 2;
+	g_data->binary_table[7] = 1;
 }
 
 int	byte_to_char(void)
 {
-	int	binary_table[8];
 	int	ascii_value;
 	int	i;
 
-	binary_table = {128, 64, 32, 16, 8, 4, 2, 1};
 	i = -1;
 	ascii_value = 0;
 	g_data->i = 0;
 	g_data->byte[8] = '\0';
 	while (i++ <= 8)
 		if (g_data->byte[i] == '1')
-			ascii_value = ascii_value + binary_table[i];
+			ascii_value = ascii_value + g_data->binary_table[i];
 	if (ascii_value == 0)
 	{
 		write(1, "\n", 1);
