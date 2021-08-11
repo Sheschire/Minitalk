@@ -6,18 +6,19 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/28 15:40:41 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/07/30 13:09:29 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/08/11 16:00:06 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	init_g_data(t_data *data)
+void	safekill(int client_pid, int signum)
 {
-	data->client_pid = 0;
-	data->i = 0;
-	g_data = data;
-	memset(g_data->byte, 0, 8);
+	if (kill(client_pid, signum) < 0)
+	{
+		printf("ERROR : SIGNUM CANNOT BE RECEIVED PROPERLY\n");
+		exit(0);
+	}
 }
 
 int	ft_atoi(const char *str)

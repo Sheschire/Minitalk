@@ -6,15 +6,15 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 15:12:01 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/07/30 13:12:06 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/08/11 15:56:23 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int 	check_argv(int ac, char **av)
+int	check_argv(int ac, char **av)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (ac != 3)
@@ -30,32 +30,34 @@ char	*char_to_byte(char c)
 	char	*byte;
 	int		i;
 	int		j;
-	
+
 	i = -1;
 	j = 7;
 	byte = (char *)malloc(sizeof(char) * 9);
 	byte[8] = '\0';
 	while (i++ < 8)
+	{
 		if ((1 << i) & c)
 			byte[j--] = '1';
 		else
 			byte[j--] = '0';
+	}
 	return (byte);
 }
 
 void	signal_to_server(int pid, char bit)
 {
 	if (bit == '1')
-		kill(pid, SIGUSR1);
+		safekill(pid, SIGUSR1);
 	else
-		kill(pid, SIGUSR2);
+		safekill(pid, SIGUSR2);
 }
 
 void	send_bit(int signum)
 {
-	static int i = 0;
-	static int j = 0;
-	char *byte;
+	static int	i = 0;
+	static int	j = 0;
+	char		*byte;
 
 	if (signum == SIGUSR1)
 	{
@@ -76,8 +78,7 @@ void	send_bit(int signum)
 	}
 }
 
-
-int 	main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_data	data;
 
@@ -91,11 +92,8 @@ int 	main(int ac, char **av)
 	data.i = 0;
 	data.j = 0;
 	g_data = &data;
-	kill(data.av1, SIGUSR1);
+	safekill(data.av1, SIGUSR1);
 	signal(SIGUSR1, send_bit);
 	while (1)
-	{
-		printf("test");
 		pause();
-	}
 }
