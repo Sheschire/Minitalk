@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:25:54 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/08/11 15:57:00 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/08/11 16:45:53 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	main(int ac, char **av)
 {
 	int		pid;
 	char	buffer[10100];
+	char	*emoji = "😀";
 	char	*char_10 = "\"10 char !!\"";
 	char	*char_100 = "\"Quand la vache se leve du mauvais pied, elle meuuuuuuhnace tous les passants qui se risquent par ici\"";
 	char	*char_1000 = "\"ecpvZhf36Q2BESvHoybuadGNMfyDK5zlqVT2ryCqJkf2k7xEN4xMAL47hWSqeOzwIS2AJNXRe5qYOZuy7razgocdWFZzkcaMBDGUxViZVEE6QLQSdnTwVJ1VyYggucRQH5X1QWvDDrgZzn0XyckAhlvuOUPpodGofusFRPjlH5dcRbWMYnaJOQZDjo6ufSB553ob4r94mlsig0qReosLJBx72PW5jaUkRFmXvBtVhZj7jsA1H3JmckaSzu1ygxSWFuuMnpBTUMiFdZcoaBZpauINGRsiJfv3y1GXSpxxgxYQfqhmB44F2cpwRXqrRF1QJnLsjGQZ6yyQTLvxKsOfM71h1cUlAEZntpq3R47NZrZv206rOU2bppmFqtqBDkWgnHkTcjRxVeYhMY5OPvMPVcoQHqJFslrgSBP1jQeiD2pUSOvIbs8AHbFv0IR9lLAUkQGcE1qsuB7UhfaExaHM75nhmJi3NYLL5VglZP73rj0LV4BerxBCEZbbX8B5ipIFYqqBUtrEgZJ4hxd9HlN6RwJFsS1sV0Q3YUB3xbuzgABbeOg04GxzdKBPkleOi6OP3cBXLoS78EoDHomOLX2oHyXsiQNGjaJVNLVgdWehmKKnAcKzemPZoIMO7t3FunsN9fGHm1EWcoaJhoyDTQZ8P9Mk8ZFdUeViXvYj9vNtuzlHAQvRwvBTzc9jn8mpOEQiGAzfNxkPCUmON9flyztdkXy3QmE8xrVy2mMQc0fyMFG1NlMAzedaT2LQ4N83Vvv3AwztlUMC8X5e8Yl4QTT71IcqWrqSmaWMQWs0sG130USz37ItTktLZnqUsJf4JZgmP4FTGhOe5Tyi3EoOrFr6GOff6UifmyBweSMyMKGTwyJ45Yncy6FcCYJ8jFjXMszRuY5yn7Q1PXk29CdnBGiyw25KCtc0q4h636o31Q5BB3mpUiwGJrVboMfxoc7O2E9xMswlVmJ3j7L8MpNtRoanPtUXWlBIsP5NpqPbhHOY\"";
@@ -73,5 +74,7 @@ int	main(int ac, char **av)
 		snprintf(buffer, sizeof(buffer), "./client %d %s", pid, char_1000);
 	else if (!ft_strcmp(av[2], "10000"))
 		snprintf(buffer, sizeof(buffer), "./client %d %s", pid, char_10000);
+	else if (!ft_strcmp(av[2], "unicode"))
+		snprintf(buffer, sizeof(buffer), "./client %d %s", pid, emoji);
 	system(buffer);
 }

@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 13:52:18 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/08/11 16:28:39 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/08/11 17:10:44 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,13 @@ void	rewrite_byte(int signum, siginfo_t *info, void *context)
 		else if (signum == SIGUSR2)
 			g_data->byte[g_data->i++] = '0';
 		if (g_data->i == 8)
+		{
 			if (byte_to_char())
+			{
+				printf("END OF TRANSMISSION\n");
 				return ;
+			}
+		}
 	}
 	safekill(g_data->client_pid, SIGUSR1);
 }

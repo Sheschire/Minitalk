@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 15:12:01 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/08/11 15:56:23 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/08/11 17:14:19 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,23 +59,27 @@ void	send_bit(int signum)
 	static int	j = 0;
 	char		*byte;
 
-	if (signum == SIGUSR1)
+	if (signum != SIGUSR1)
+		exit(0);
+	if (g_data->acknowledgment == 0)
 	{
-		byte = char_to_byte(g_data->av2[i]);
-		signal_to_server(g_data->av1, byte[j]);
-		j++;
-		if (j == 8)
-		{
-			if (g_data->av2[i] == '\0')
-			{
-				free(byte);
-				exit(0);
-			}
-			i++;
-			j = 0;
-		}
-		free(byte);
+		printf("CLIENT SUCCESSFULY SENT THE MESSAGE TO SERVER\n");
+		g_data->acknowledgment = 1;
 	}
+	byte = char_to_byte(g_data->av2[i]);
+	signal_to_server(g_data->av1, byte[j]);
+	j++;
+	if (j == 8)
+	{
+		if (g_data->av2[i] == '\0')
+		{
+			free(byte);
+			exit(0);
+		}
+		i++;
+		j = 0;
+	}
+	free(byte);
 }
 
 int	main(int ac, char **av)
@@ -89,6 +93,7 @@ int	main(int ac, char **av)
 	}
 	data.av1 = ft_atoi(av[1]);
 	data.av2 = av[2];
+	data.acknowledgment = 0;
 	data.i = 0;
 	data.j = 0;
 	g_data = &data;

@@ -6,7 +6,7 @@
 /*   By: tlemesle <tlemesle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 13:53:52 by tlemesle          #+#    #+#             */
-/*   Updated: 2021/08/11 16:26:47 by tlemesle         ###   ########.fr       */
+/*   Updated: 2021/08/11 16:56:16 by tlemesle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_data
 	char		byte[9];
 	int			binary_table[8];
 	int			client_pid;
+	int			acknowledgment;
 }				t_data;
 
 t_data	*g_data;
